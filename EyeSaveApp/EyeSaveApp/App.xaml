@@ -1,0 +1,14 @@
+﻿<Application x:Class="EyeSaveApp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:EyeSaveApp"
+             StartupUri="Views\MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="PrimaryColor">#FFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="SecondaryColor">#FFE9F9</SolidColorBrush>
+            <SolidColorBrush x:Key="AccentColor">#B175EE</SolidColorBrush>
+            <SolidColorBrush x:Key="HighDiscountColor">LightGreen</SolidColorBrush>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
