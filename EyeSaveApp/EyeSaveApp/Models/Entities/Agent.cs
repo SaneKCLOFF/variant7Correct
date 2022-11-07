@@ -41,9 +41,9 @@ namespace EyeSaveApp.Models.Entities
         {
             get
             {
-                var nowDate =DateTime.Now.Year;
-                var diapasonDate = nowDate - 5;
-                return ProductSales.Where(ps => (nowDate >= ps.SaleDate.Year)&&(ps.SaleDate.Year>=diapasonDate)).Count();
+                var nowDate =DateTime.Now;
+                var diapasonDate = nowDate.AddYears(-5);
+                return ProductSales.Where(ps => (nowDate >= ps.SaleDate)&&(ps.SaleDate>=diapasonDate)).Count();
             }
         }
         [NotMapped]
@@ -75,6 +75,16 @@ namespace EyeSaveApp.Models.Entities
                 else
                     discount = 25;
                 return discount;
+            }
+        }
+        [NotMapped]
+        public bool CheckDiscount
+        {
+            get
+            {
+                if (Discount>=25)
+                    return true;
+                return false;
             }
         }
     }

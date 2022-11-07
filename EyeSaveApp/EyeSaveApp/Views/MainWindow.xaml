@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:EyeSaveApp.Views"
         xmlns:viewModels="clr-namespace:EyeSaveApp.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1000">
+        Title="MainWindow" Height="700" Width="1000"
+        Icon="\Resources\Icon.ico">
     <Window.DataContext>
         <viewModels:MainWindowViewModel/>
     </Window.DataContext>
@@ -16,7 +17,7 @@
             <RowDefinition/>
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
-        <Grid>
+        <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="60"/>
                 <ColumnDefinition/>
@@ -27,16 +28,25 @@
                    Source="\Resources\Logo.png"
                    Margin=" 3"/>
             <TextBox Grid.Column="1"
-                     Margin="10,15"/>
+                     Margin="10,15"
+                     Text="{Binding SearchValue, UpdateSourceTrigger=PropertyChanged}"/>
             <ComboBox Grid.Column="2"
-                      Margin="10,15"/>
+                      Margin="10,15"
+                      ItemsSource="{Binding ValuesToSort}"
+                      SelectedItem="{Binding SortValue, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedIndex="0"/>
             <ComboBox Grid.Column="3"
-                      Margin="10,15"/>
+                      Margin="10,15"
+                      ItemsSource="{Binding ValuesToFilter}"
+                      SelectedItem="{Binding FilterValue,UpdateSourceTrigger=PropertyChanged}"
+                      SelectedIndex="0"/>
         </Grid>
         <ListView Name="DisplayListView"
                   HorizontalContentAlignment="Stretch"
                   Grid.Row="1"
-                  ItemsSource="{Binding DisplayingAgents}">
+                  ItemsSource="{Binding DisplayingAgents}"
+                  MouseDoubleClick="DisplayListView_MouseDoubleClick"
+                  SelectedItem="{Binding SelectedAgent}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border Name="ItemBorder"
@@ -67,8 +77,24 @@
                                        Text="{Binding Discount, StringFormat={}{0}%}"/>
                         </Grid>
                     </Border>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding CheckDiscount}" Value="true">
+                            <Setter TargetName="ItemBorder" Property="BorderBrush" Value="{StaticResource HighDiscountColor}"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"
+                    Name="btnAddAgent"
+                    Margin="20,15"
+                    Content="Add"
+                    Click="btnAddAgent_Click"/>
+        </Grid>
     </Grid>
 </Window>

@@ -1,0 +1,93 @@
+﻿<Window x:Class="EyeSaveApp.Views.AgentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EyeSaveApp.Views"
+        xmlns:viewModel="clr-namespace:EyeSaveApp.ViewModels"
+        mc:Ignorable="d"
+        Title="Добавление \ Редактирование" Height="600" Width="800"
+        Icon="\Resources\Icon.ico" >
+    <!--<Window.DataContext>
+        <viewModel:AgentWindowViewModel/>
+    </Window.DataContext>-->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <TextBlock Text="Наименование:"/>
+            <TextBox Text="{Binding Agent.Title}"/>
+            <TextBlock Text="Тип:"/>
+            <ComboBox SelectedItem="{Binding Agent.AgentType}"
+                      DisplayMemberPath="Title"
+                      ItemsSource="{Binding AgentTypes}"/>
+            <TextBlock Text="Приоритет:"/>
+            <TextBox Text="{Binding Agent.Priority}"/>
+            <TextBlock Text="Логотип компании:"/>
+            <TextBox Text="{Binding Agent.Logo}"/>
+            <TextBlock Text="Адрес"/>
+            <TextBox Text="{Binding Agent.Address}"/>
+            <TextBlock Text="ИНН:"/>
+            <TextBox Text="{Binding Agent.Inn}"/>
+            <TextBlock Text="КПП:"/>
+            <TextBox Text="{Binding Agent.Kpp}"/>
+            <TextBlock Text="Телефон:"/>
+            <TextBox Text="{Binding Agent.Phone}"/>
+            <TextBlock Text="Email:"/>
+            <TextBox Text="{Binding Agent.Email}"/>
+            <TextBlock Text="Имя директора:"/>
+            <TextBox Text="{Binding Agent.DirectorName}"/>
+        </StackPanel>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="200"/>
+            </Grid.RowDefinitions>
+            <ListView Grid.Row="0"
+                  ItemsSource="{Binding Agent.ProductSales}"
+                  HorizontalContentAlignment="Stretch"
+                      SelectedItem="{Binding SelectedProductSale}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{StaticResource PrimaryColor}"
+                            BorderBrush="{StaticResource SecondaryColor}"
+                            BorderThickness="2"
+                            CornerRadius="2"
+                            >
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding ProductCount}"
+                                       Margin="5"/>
+                                <TextBlock Text="{Binding Product.Title}"
+                                       Margin="5"/>
+                                <TextBlock Text="{Binding SaleDate, StringFormat={}{0:dd.MM.yyyy}}"
+                                       Margin="5"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackPanel Grid.Row="1">
+                <TextBlock Text="Поиск:"/>
+                <TextBox Text="{Binding SearchValue, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="Продукты:"/>
+                <ComboBox SelectedIndex="0"
+                          ItemsSource="{Binding DisplayingProducts}"
+                          DisplayMemberPath="Title"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="Add"
+                            Grid.Column="0"
+                            Margin="5"/>
+                    <Button Content="Delete"
+                            Grid.Column="1"
+                            Margin="5"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

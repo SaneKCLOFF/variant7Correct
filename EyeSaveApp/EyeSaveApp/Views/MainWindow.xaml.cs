@@ -26,5 +26,16 @@ namespace EyeSaveApp.Views
             InitializeComponent();
             _viewModel = (MainWindowViewModel)DataContext;
         }
+
+        private void btnAddAgent_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DisplayListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (_viewModel.SelectedAgent != null)
+                new AgentWindow(_viewModel.SelectedAgent.Id).ShowDialog();
+        }
     }
 }
