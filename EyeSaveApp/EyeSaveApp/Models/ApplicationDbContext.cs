@@ -35,8 +35,9 @@ namespace EyeSaveApp.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS; Database=Variant7DB; User=sa; Password=0$sa");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-I8L1GP6; Database=Variant7DB; Trusted_Connection=true;");
                 //DESKTOP-I8L1GP6
+                //"Server=localhost\\SQLEXPRESS; Database=Variant7DB; User=sa; Password=0$sa"
             }
         }
 

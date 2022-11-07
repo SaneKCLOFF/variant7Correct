@@ -7,7 +7,9 @@
         xmlns:viewModels="clr-namespace:EyeSaveApp.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1000"
-        Icon="\Resources\Icon.ico">
+        Icon="\Resources\Icon.ico"
+        FontFamily="Century Gothic"
+        FontSize="18">
     <Window.DataContext>
         <viewModels:MainWindowViewModel/>
     </Window.DataContext>
@@ -15,6 +17,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition/>
+            <RowDefinition Height="70"/>
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
@@ -44,6 +47,8 @@
         <ListView Name="DisplayListView"
                   HorizontalContentAlignment="Stretch"
                   Grid.Row="1"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
                   ItemsSource="{Binding DisplayingAgents}"
                   MouseDoubleClick="DisplayListView_MouseDoubleClick"
                   SelectedItem="{Binding SelectedAgent}">
@@ -93,8 +98,49 @@
             <Button Grid.Column="0"
                     Name="btnAddAgent"
                     Margin="20,15"
-                    Content="Add"
+                    Content="Add Agent"
                     Click="btnAddAgent_Click"/>
+            <Button Grid.Column="1"
+                    Name="btnEditPriority"
+                    Margin="20,15"
+                    Content="Edit Priority"/>
         </Grid>
+        <StackPanel Grid.Row="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <Button x:Name="btnPreviousPage"
+                    Margin="10" Content="&lt;"
+                    Height="40"
+                    Width="40"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="btnPreviousPage_Click"/>
+            <ListView Margin="10"
+                      Name="listViePageSwap"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      ItemsSource="{Binding Pages, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedPage, UpdateSourceTrigger=PropertyChanged}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding num}"
+                                   Padding="5"
+                                   Name="tbNum"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button x:Name="btnNextPage"
+                    Margin="10" Content="&gt;"
+                    Height="40"
+                    Width="40"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="btnNextPage_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

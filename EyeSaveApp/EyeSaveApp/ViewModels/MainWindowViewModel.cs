@@ -6,11 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace EyeSaveApp.ViewModels
 {
     public class MainWindowViewModel:ViewModelBase
     {
+        #region Main Code
         private List<Agent> _agents;
         private List<Agent> _displayingAgents;
         private string _sortValue;
@@ -71,6 +73,7 @@ namespace EyeSaveApp.ViewModels
             get => _selectedAgent;
             set => Set(ref _selectedAgent, value, nameof(SelectedAgent));
         }
+        
 
         public MainWindowViewModel()
         {
@@ -85,11 +88,22 @@ namespace EyeSaveApp.ViewModels
                     .OrderBy(a=>a.Id)
                     .ToList();
             }
-            DisplayingAgents= new List<Agent>(_agents);
+            _displayingAgents= new List<Agent>(_agents);
+            _filterValue = ValuesToFilter[0];
+            _sortValue = ValuesToSort[0];
+            _pages = GetPages(_displayingAgents.Count);
+            _selectedPage = _pages[0];
         }        
         private void DisplayAgents()
         {
-            DisplayingAgents=Sort(Search(Filter(_agents))).ToList();
+            var list = Sort(Search(Filter(_agents))).ToList();
+            Pages = GetPages(list.Count);
+            var pageNum = SelectedPage == null
+                ? 1
+                : SelectedPage.num;
+            DisplayingAgents = Paging(list, pageNum, PageSize).ToList(); ;
+
+            SelectedPage ??= Pages[0];
         }
 
         private IEnumerable<Agent> Sort(IEnumerable<Agent> agents)
@@ -127,5 +141,54 @@ namespace EyeSaveApp.ViewModels
             else
                 return agents.Where(a=>a.Title.ToLower().Contains(search.ToLower()) || a.Phone.ToLower().Contains(search.ToLower()) || a.Email.ToLower().Contains(search.ToLower()));
         }
+        #endregion
+
+        #region Pagging Code
+        //Создал шаблон страницы
+        public record Page(int num);
+        //Размер страниы
+        private const int PageSize = 10;
+        //Списко со страницами
+        private List<Page> _pages;
+        //Выбранная страница
+        private Page _selectedPage;
+        public List<Page> Pages 
+        { 
+            get => _pages;
+            set => Set(ref _pages, value, nameof(Pages));
+        }
+        public Page SelectedPage 
+        { 
+            get => _selectedPage; 
+            set
+            {
+                if (Set( ref _selectedPage, value, nameof(SelectedPage)))
+                    DisplayAgents();
+            }
+        }
+        private List<Page> GetPages(int itemsCount)
+        {
+            //Вычесление кол-ва страниц
+            double pagesCount = Math.Ceiling((double)itemsCount / PageSize);
+            //Создание нового листа с количеством страниц 
+            var list= new List<Page>((int)pagesCount);
+            //если выдало 0 страниц, то задаём 1 страницу обязательно.
+            list.Add(new Page(1));
+            //задаём оставшиеся страницы, без первой так как она уже задана, +1 потомучто нумерация
+            for (int i = 1; i < pagesCount; i++)
+            {
+                list.Add(new Page(i + 1));
+            }
+            //вернули лист со странивми и их номерами
+            return list;
+        }
+        private IEnumerable<Agent> Paging(IEnumerable<Agent> agents, int pageNum, int pageSize)
+        {
+            if (pageNum > 0) //????
+                agents = agents.Skip((pageNum - 1) * pageSize);
+
+            return agents.Take(pageSize); 
+        }
+        #endregion
     }
 }
