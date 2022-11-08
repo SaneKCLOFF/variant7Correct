@@ -27,5 +27,24 @@ namespace EyeSaveApp.Views
             _viewModel = new AgentWindowViewModel(agentId);
             DataContext=_viewModel;
         }
+
+        private void btnDeleteProductSale_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("Вы действиетльно хотите удалить это?","Подтверждение!",MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            _viewModel.DeletSelectedProductSale();
+        }
+
+        private void btnAddProductSale_Click(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.SelectedProduct!=null)
+                _viewModel.AddProductSale();
+        }
+
+        private void btnDeleteAgent_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.DeleteAgent();
+            Close();
+        }
     }
 }

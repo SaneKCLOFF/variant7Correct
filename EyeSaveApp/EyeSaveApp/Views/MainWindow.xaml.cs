@@ -29,7 +29,7 @@ namespace EyeSaveApp.Views
 
         private void btnAddAgent_Click(object sender, RoutedEventArgs e)
         {
-
+            new AgentWindow(null).ShowDialog();
         }
 
         private void DisplayListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -42,16 +42,14 @@ namespace EyeSaveApp.Views
         {
             if (_viewModel.SelectedPage.num == 1)
                 return;
-            var currentPageNum = _viewModel.SelectedPage.num;
-            _viewModel.SelectedPage = _viewModel.Pages[currentPageNum-2];
+            _viewModel.SelectedPage = _viewModel.Pages[_viewModel.SelectedPage.num-2];
         }
 
         private void btnNextPage_Click(object sender, RoutedEventArgs e)
         {
             if (_viewModel.SelectedPage.num == _viewModel.Pages.Count)
                 return;
-            var currentPageNum = _viewModel.SelectedPage.num;
-            _viewModel.SelectedPage = _viewModel.Pages[currentPageNum];
+            _viewModel.SelectedPage = _viewModel.Pages[_viewModel.SelectedPage.num];
         }
     }
 }

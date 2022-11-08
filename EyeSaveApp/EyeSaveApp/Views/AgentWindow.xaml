@@ -7,7 +7,8 @@
         xmlns:viewModel="clr-namespace:EyeSaveApp.ViewModels"
         mc:Ignorable="d"
         Title="Добавление \ Редактирование" Height="600" Width="800"
-        Icon="\Resources\Icon.ico" >
+        Icon="\Resources\Icon.ico" 
+        WindowStartupLocation="CenterScreen">
     <!--<Window.DataContext>
         <viewModel:AgentWindowViewModel/>
     </Window.DataContext>-->
@@ -39,6 +40,9 @@
             <TextBox Text="{Binding Agent.Email}"/>
             <TextBlock Text="Имя директора:"/>
             <TextBox Text="{Binding Agent.DirectorName}"/>
+            <Button Content="Delete"
+                    Name="btnDeleteAgent"
+                    Click="btnDeleteAgent_Click"/>
         </StackPanel>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
@@ -74,7 +78,8 @@
                 <TextBlock Text="Продукты:"/>
                 <ComboBox SelectedIndex="0"
                           ItemsSource="{Binding DisplayingProducts}"
-                          DisplayMemberPath="Title"/>
+                          DisplayMemberPath="Title"
+                          SelectedItem="{Binding SelectedProduct}"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -82,10 +87,14 @@
                     </Grid.ColumnDefinitions>
                     <Button Content="Add"
                             Grid.Column="0"
-                            Margin="5"/>
+                            Margin="5"
+                            Name="btnAddProductSale"
+                            Click="btnAddProductSale_Click"/>
                     <Button Content="Delete"
                             Grid.Column="1"
-                            Margin="5"/>
+                            Margin="5"
+                            Name="btnDeleteProductSale"
+                            Click="btnDeleteProductSale_Click"/>
                 </Grid>
             </StackPanel>
         </Grid>
