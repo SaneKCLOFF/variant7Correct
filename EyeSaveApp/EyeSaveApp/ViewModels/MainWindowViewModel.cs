@@ -175,18 +175,19 @@ namespace EyeSaveApp.ViewModels
             //если выдало 0 страниц, то задаём 1 страницу обязательно.
             list.Add(new Page(1));
             //задаём оставшиеся страницы, без первой так как она уже задана, +1 потомучто нумерация
-            for (int i = 1; i < pagesCount; i++)
+            for (int i = 2; i <= pagesCount; i++)
             {
-                list.Add(new Page(i + 1));
+                list.Add(new Page(i));
             }
             //вернули лист со странивми и их номерами
             return list;
         }
         private IEnumerable<Agent> Paging(IEnumerable<Agent> agents, int pageNum, int pageSize)
         {
-            if (pageNum > 0) //????
+            if (pageNum > 0) //пропускаме первые сколько то элементов
                 agents = agents.Skip((pageNum - 1) * pageSize);
 
+            //берём первые нексолько элементов
             return agents.Take(pageSize); 
         }
         #endregion
