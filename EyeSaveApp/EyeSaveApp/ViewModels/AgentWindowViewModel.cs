@@ -6,22 +6,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EyeSaveApp.ViewModels
 {
     public class AgentWindowViewModel : ViewModelBase
     {
-        private Agent _agent;
+        private Agent _currentAgent;
         private List<AgentType> _agentTypes;
         private ProductSale _selectedProductSale;
         private string _searchValue;
         private List<Product> _products;
         private List<Product> _displayingProducts;
         private Product _selectedProduct;
+        private string _productSaleCount;
 
         private bool _isNew;
         public List<AgentType> AgentTypes { get => _agentTypes; set => Set(ref _agentTypes, value, nameof(AgentTypes)); }
-        public Agent Agent { get => _agent; set => Set(ref _agent, value, nameof(Agent)); }
+        public Agent CurrentAgent 
+        { 
+            get => _currentAgent;
+            set => Set(ref _currentAgent, value, nameof(CurrentAgent));
+        }
         public List<Product> Products { get => _products; set => Set(ref _products, value, nameof(Products)); }
         public string SearchValue 
         { 
@@ -35,21 +41,22 @@ namespace EyeSaveApp.ViewModels
         public ProductSale SelectedProductSale { get => _selectedProductSale; set => Set(ref _selectedProductSale,value,nameof(SelectedProductSale)); }
         public List<Product> DisplayingProducts { get => _displayingProducts; set => Set(ref _displayingProducts, value, nameof(DisplayingProducts)); }
         public Product SelectedProduct { get => _selectedProduct; set => Set(ref _selectedProduct, value, nameof(SelectedProduct)); }
+        public string ProductSaleCount { get => _productSaleCount; set => Set(ref _productSaleCount, value, nameof(ProductSaleCount)); }
 
         public AgentWindowViewModel(int? agentId)
         {
             using (ApplicationDbContext context = new())
             {
                 AgentTypes = context.AgentTypes.ToList();
-                _products=context.Products.ToList();
+                Products=context.Products.ToList();
             }
             if (agentId==null)
             {
                 _isNew = true;
-                Agent = new Agent();
-                return;
+                CurrentAgent = new Agent();
             }
-            Agent = GetAgent((int)agentId);
+            else
+            CurrentAgent = GetAgent((int)agentId);
             DisplayProducts();
         }
         public void DeletSelectedProductSale()
@@ -60,7 +67,7 @@ namespace EyeSaveApp.ViewModels
                 context.SaveChanges();
             }
             SelectedProductSale = null;
-            Agent = GetAgent(Agent.Id);
+            CurrentAgent = GetAgent(CurrentAgent.Id);
         }
         public void AddProductSale()
         {
@@ -68,26 +75,44 @@ namespace EyeSaveApp.ViewModels
             {
                 ProductSale newProductSale = new()
                 {
-                    AgentId=Agent.Id,
-                    ProductId=SelectedProduct.Id,
-                    SaleDate=DateTime.Now,
-                    ProductCount=10
+                    AgentId = CurrentAgent.Id,
+                    ProductId = SelectedProduct.Id,
+                    SaleDate = DateTime.Now,
+                    ProductCount = Convert.ToInt32(ProductSaleCount)
                 };
                 context.ProductSales.Add(newProductSale);
                 context.SaveChanges();
             }
-            Agent = GetAgent(Agent.Id);
+            CurrentAgent = GetAgent(CurrentAgent.Id);
+        }
+        public void AddAgent()
+        {
+            using (ApplicationDbContext context=new())
+            {
+                CurrentAgent.AgentTypeId = CurrentAgent.AgentType.Id;
+                CurrentAgent.AgentType = null;
+                context.Agents.Add(CurrentAgent);
+                context.SaveChanges();
+            }
+        }
+        public void UpdateAgent()
+        {
+            using (ApplicationDbContext context = new()) 
+            {
+                context.Agents.Update(CurrentAgent);
+                context.SaveChanges();
+            }
         }
         public void DeleteAgent()
         {
-            if (Agent!=null)
+            if (CurrentAgent!=null)
             {
                 using (ApplicationDbContext context = new())
                 {
-                    context.Agents.Remove(Agent);
+                    context.Agents.Remove(CurrentAgent);
                     context.SaveChanges();
                 }
-                Agent = null;
+                CurrentAgent = null;
             }
         }
         public Agent GetAgent(int agentId)

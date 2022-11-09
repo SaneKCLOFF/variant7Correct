@@ -19,27 +19,33 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
             <TextBlock Text="Наименование:"/>
-            <TextBox Text="{Binding Agent.Title}"/>
+            <TextBox Text="{Binding CurrentAgent.Title}"/>
             <TextBlock Text="Тип:"/>
-            <ComboBox SelectedItem="{Binding Agent.AgentType}"
+            <ComboBox SelectedItem="{Binding CurrentAgent.AgentType}"
                       DisplayMemberPath="Title"
                       ItemsSource="{Binding AgentTypes}"/>
             <TextBlock Text="Приоритет:"/>
-            <TextBox Text="{Binding Agent.Priority}"/>
+            <TextBox Text="{Binding CurrentAgent.Priority}"/>
             <TextBlock Text="Логотип компании:"/>
-            <TextBox Text="{Binding Agent.Logo}"/>
+            <TextBox Text="{Binding CurrentAgent.Logo}"/>
             <TextBlock Text="Адрес"/>
-            <TextBox Text="{Binding Agent.Address}"/>
+            <TextBox Text="{Binding CurrentAgent.Address}"/>
             <TextBlock Text="ИНН:"/>
-            <TextBox Text="{Binding Agent.Inn}"/>
+            <TextBox Text="{Binding CurrentAgent.Inn}"/>
             <TextBlock Text="КПП:"/>
-            <TextBox Text="{Binding Agent.Kpp}"/>
+            <TextBox Text="{Binding CurrentAgent.Kpp}"/>
             <TextBlock Text="Телефон:"/>
-            <TextBox Text="{Binding Agent.Phone}"/>
+            <TextBox Text="{Binding CurrentAgent.Phone}"/>
             <TextBlock Text="Email:"/>
-            <TextBox Text="{Binding Agent.Email}"/>
+            <TextBox Text="{Binding CurrentAgent.Email}"/>
             <TextBlock Text="Имя директора:"/>
-            <TextBox Text="{Binding Agent.DirectorName}"/>
+            <TextBox Text="{Binding CurrentAgent.DirectorName}"/>
+            <Button Content="Add"
+                    Name="btnAddAgent"
+                    Click="btnAddAgent_Click"/>
+            <Button Content="Update"
+                    Name="btnEditAgent"
+                    Click="btnEditAgent_Click"/>
             <Button Content="Delete"
                     Name="btnDeleteAgent"
                     Click="btnDeleteAgent_Click"/>
@@ -50,7 +56,7 @@
                 <RowDefinition Height="200"/>
             </Grid.RowDefinitions>
             <ListView Grid.Row="0"
-                  ItemsSource="{Binding Agent.ProductSales}"
+                  ItemsSource="{Binding CurrentAgent.ProductSales}"
                   HorizontalContentAlignment="Stretch"
                       SelectedItem="{Binding SelectedProductSale}">
                 <ListView.ItemTemplate>
@@ -74,12 +80,17 @@
             </ListView>
             <StackPanel Grid.Row="1">
                 <TextBlock Text="Поиск:"/>
-                <TextBox Text="{Binding SearchValue, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Text="{Binding SearchValue, UpdateSourceTrigger=PropertyChanged}"
+                         Name="SearchProductTextBox"/>
                 <TextBlock Text="Продукты:"/>
                 <ComboBox SelectedIndex="0"
                           ItemsSource="{Binding DisplayingProducts}"
                           DisplayMemberPath="Title"
-                          SelectedItem="{Binding SelectedProduct}"/>
+                          SelectedItem="{Binding SelectedProduct}"
+                          Name="ProductsComboBox"/>
+                <TextBlock Text="Количество"/>
+                <TextBox Text="{Binding ProductSaleCount, UpdateSourceTrigger=PropertyChanged}"
+                         Name="ProductCountTextBox"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>

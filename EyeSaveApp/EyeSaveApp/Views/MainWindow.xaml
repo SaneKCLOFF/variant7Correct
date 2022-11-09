@@ -85,7 +85,8 @@
                     </Border>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding CheckDiscount}" Value="true">
-                            <Setter TargetName="ItemBorder" Property="BorderBrush" Value="{StaticResource HighDiscountColor}"/>
+                            <Setter TargetName="ItemBorder" Property="BorderBrush" Value="{StaticResource HighDiscountColor2}"/>
+                            <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource HighDiscountColor1}"/>
                         </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>

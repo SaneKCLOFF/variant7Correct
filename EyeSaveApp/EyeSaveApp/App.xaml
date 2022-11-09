@@ -8,7 +8,8 @@
             <SolidColorBrush x:Key="PrimaryColor">#FFFFFF</SolidColorBrush>
             <SolidColorBrush x:Key="SecondaryColor">#FFE9F9</SolidColorBrush>
             <SolidColorBrush x:Key="AccentColor">#B175EE</SolidColorBrush>
-            <SolidColorBrush x:Key="HighDiscountColor">LightGreen</SolidColorBrush>
+            <SolidColorBrush x:Key="HighDiscountColor1">LightGreen</SolidColorBrush>
+            <SolidColorBrush x:Key="HighDiscountColor2">Green</SolidColorBrush>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

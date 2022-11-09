@@ -26,11 +26,18 @@ namespace EyeSaveApp.Views
             InitializeComponent();
             _viewModel = new AgentWindowViewModel(agentId);
             DataContext=_viewModel;
+            if (agentId==null)
+            {
+                btnAddProductSale.IsEnabled = false;
+                btnDeleteProductSale.IsEnabled=false;
+                btnDeleteAgent.IsEnabled=false;
+                btnEditAgent.IsEnabled=false;
+            }
         }
 
         private void btnDeleteProductSale_Click(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show("Вы действиетльно хотите удалить это?","Подтверждение!",MessageBoxButton.YesNo);
+            var result = MessageBox.Show("Вы действиетльно хотите удалить?","Подтверждение!",MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
             _viewModel.DeletSelectedProductSale();
         }
@@ -45,6 +52,20 @@ namespace EyeSaveApp.Views
         {
             _viewModel.DeleteAgent();
             Close();
+        }
+
+        private void btnAddAgent_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.AddAgent();
+            btnAddProductSale.IsEnabled = true;
+            btnDeleteProductSale.IsEnabled = true;
+            btnDeleteAgent.IsEnabled = true;
+            btnEditAgent.IsEnabled = true;
+        }
+
+        private void btnEditAgent_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.UpdateAgent();
         }
     }
 }
